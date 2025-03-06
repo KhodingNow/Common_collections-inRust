@@ -97,7 +97,8 @@ fn main() {
     // We must also be explicit about what types are allowed in this vector. If Rust allowded
     // a vector to hold any type, there would be a chance that one or more of the types would cause errors with the operationsperformed on the elements
     // of the vector. Using an enum plus a match expression means that Rust will ensure at compile time that every possible case is handled.
-    // 
+    
+    
 
 
 

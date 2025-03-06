@@ -1,0 +1,33 @@
+STORING UTF-8 Encode Text with Strings
+Rust has two main string types: String and &str. Both are UTF-8 encoded. It's easy to be confused because in some other languages like C++, strings are often ASCII or use a different encoding. So, we need to understand why Rust uses UTF-8 encoding and what it means in practice.
+UTF-8 is a variable-width encoding, which means each character can be 1 to 4 bytes long. This is different from fixed-width encoding like UTF-16 or UTF-32. The variable-with allows efficient storage for ASCII character, memory efficiency, and interoperability with systems that expect UTF-8, which is common in web protocolsand Unix systems.There are challenges as well though, like the inability to index by character position in O(1) time because characters can be multiple bytes.
+
+Its important to remember that Strings in Rust are stored as a vector of bytes '(Vec<u8>)', but with the guarantee that those bytes are valid UTF-8. So, when we get a string from a user input or a file, Rust ensures it's valid UTF-8, which can result in errors if the data isn't properly encoded.
+
+Rust has a way of handling invalid UTF-8. For example, if you have bytes that are not valid UTF-8, you can put them into a String or '&str'. Instead, you have to use Vec<u8> or OsString for platform-specific strings.
+
+To understand this concept - we can create a String, iterate over its characters, and handle potential errors. Also, demonstrate what happens when you try to index a string directly and whay its not allowed. Code snippets would be useful - lik showing that iterating over 'chars()' gives Unicode scalar values, while 'bytes()' gives raw bytes. Show how to handle invalid UTF-8 encoding using 'from_utf8_lossy' t replace invalid sequences.
+Rust made this design choice because UTF-8 is the standard for web and it's more space-efficient for many applications, especially where ASCII is common.
+We need to keep in mind common pitfalls - like assuming each character is a single byte, and how to properly work with Strings by using iterator methods instead of direct indexing.
+
+1 What is UTF-8?
+
+UTF-8 is a variable-width encoding for Unicode characters. Unlike fixed-width encodings (e.g UTF-16 and UTF-32), it uses 1 to 4 bytes per character: 
+- ASCII characters (e.g, 'a', '7') use 1 byte.
+- Common Latin / Greek/ Cyrillic charactersuse 2 bytes.
+- Less common characters (e.g, emojis, CJK ideagraphs) use 3-4 bytes.
+
+This means the lengthof a string in bytes IS NOT the number of characters (Unicode scalar values).
+
+2. How Rust Stores Strings
+
+In Rust, 'String' and '&str' are guaranteed to be valid UTF-8 . Under the hood.
+
+- String is a heap-allocated, growable Vec<u8> with UTF-8 validation.
+- &str is a slice (&[u8]) pointing to UTF-8 bytes (heap, stack, or static memory).
+
+
+
+
+
+
