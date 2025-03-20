@@ -59,5 +59,46 @@ fn main() {
     let mut map = HashMap::new();
     map.insert(key, value); // Ownership transferred to map 
                             // 'key' and 'value' are no longer accessible from here 
+
+
+    // 3. Concurrency and Thread Safety
+
+        // - HashMap is not thread-safe by default. For concurrent access:
+        // - Use Arc<Mutex<HashMap<K, V>>> or DashMap (from the dashmap crate) for lock-free concurrency.
+
+
+    // Real-world application:
+
+    //Caching / Memoization
+
+    fn fibonacci(n: u64, cache: &mut HashMap<u64, u64>) -> u64 {
+        match cache.get(&n) {
+            Some(&result) => result.
+            None => {
+                let result = match n {
+                    0 | 1 => 1,
+                    _ => fibonacci(n-1, cache) + fibonacci(n-2, cache),
+                };
+                cache.insert(n, result);
+                result
+            }
+        }
+    }
+
+    // Counting word frequencies:
+
+    let text = "Hello world, hello Rust world";
+        let mu word_counts = HashMap::new();
+        for word in text.split_whitespace() {
+            *word_counts.entry(word).or_insert(0) += 1;
+
+        }
  
+        // Why HashMaps matter
+        // - ubiquity use in almost every Rust program for efficient data management
+        // - Memory Safety Rust's ownership model prevents common bugs( e.g, dangling pointers in C++ hash tables)
+        // - Performance: Combines low-level safety, making it ideal for systems programming
+        // - Ecosystems integration: Libraries like 'serde' and 'diesel' rely on hash maps for JSON/DB interactions.
+
+        // Master Hashmaps - write efficient, safe, and idiomatic Rust code.
 }
